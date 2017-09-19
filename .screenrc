@@ -1,0 +1,5 @@
+term rxvt
+termcapinfo * ti@:te@
+altscreen on
+defscrollback 50000
+hardstatus alwayslastline '%{= G}[ %{G}%H%{g} ][ %=%{= w}%-Lw%{= gk} %n%f* %t %{-}%{= w}%+Lw %=%{g}][ %{y}%l%{g} ][ %{B}%Y-%m-%d %{W}%c:%s%{g} ]'
