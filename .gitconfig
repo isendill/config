@@ -1,35 +1,57 @@
 [alias]
 	# log section
+	logf = log --pretty=fuller
 	hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
 	co = checkout
+	cp = cherry-pick
+	lgb = log --graph --abbrev-commit --decorate --date=relative --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)'
 	lg1 = log --graph --abbrev-commit --decorate --date=relative --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all
 	lg2 = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all
-	lg = !"git lg1"
+	lgd = log --graph --abbrev-commit --decorate --date=relative --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all --date-order
+	lg = !git lg1
 	lgf = log --pretty=format:'%Cred%h%Creset%d - %C(yellow)%s%C(bold blue) <%cn>' --decorate --numstat
 	lp = !git lg -p
 	ll = log --stat --abbrev-commit
 	lt = log --graph --oneline --decorate --all
+	lr = reflog --date=local HEAD
 	# see changes after the last pull
 	lc = !git oneline ORIG_HEAD.. --stat --no-merges
 	oneline = log --pretty=oneline --abbrev-commit --graph --decorate
-	new = !sh -c 'git log $1@{1}..$1@{0} "$@"'
+	new = !sh -c 'git log $1@{1}..$1@{0} $@'
 	# shows a version
 	whatis = show -s --pretty='tformat:%h (%s, %ad)' --date=short
 	# shows not merged commits
-	nm = !sh -c 'git log --pretty=oneline --abbrev-commit --cherry-pick --right-only HEAD...$0 "$@"'
+	nm = !sh -c 'git log --pretty=oneline --abbrev-commit --cherry-pick --right-only HEAD...$0 $@'
+	lc = diff HEAD^ --compact-summary
 	# If you use shortened hashes, sometimes you may encounter a collision. The following alias prints out all commits whose hash start with given string
 	abbr = "!sh -c 'git rev-list --all | grep ^$1 | while read commit; do git --no-pager log -n1 --pretty=format:\"%H %ci %an %s%n\" $commit; done' -"
 	# To see the changes in a branch since it was forked from another branch, or since the last merge with the origin branch, you can add this 'forkdiff' alias
-	forkdiff = !bash -c 'git diff $(git merge-base "$1" "$2") "$2" "${@: 3}" ' -
+	forkdiff = !bash -c 'git diff $(git merge-base $1 $2) $2 ${@: 3} ' -
 	find-file = "!bash -c 'for branch in $(git branch -a); do git ls-tree -r --name-only $branch | grep '\"$1\"' | sed \"s#^#\"$branch\": #\"; done'"
 	find-file-all = "!bash -c 'for branch in $(git rev-list --all); do git ls-tree -r --name-only $branch | grep '\"$1\"' | sed \"s/^/\"$branch\": /\"; done'"
 [diff]
 	tool = meld
 [merge]
 	tool = meld
+[difftool]
+	prompt = false
 [push]
 	default = simple
 [color]
 	ui = auto
 [core]
 	editor = vim
+	autocrlf = false
+	abbrev = 10
+[url "https://git.yoctoproject.org/git/"]
+	insteadOf = git://git.yoctoproject.org/
+[url "https://git.linaro.org/"]
+	insteadOf = git://git.linaro.org/
+[url "http://git.openembedded.org/"]
+	insteadOf = git://git.openembedded.org/
+[url "https://git.busybox.net/"]
+	insteadOf = git://git.busybox.net/
+[url "https://sourceware.org/git/"]
+	insteadOf = git://sourceware.org/git/
+[url "ssh://git@github.com/"]
+	insteadOf = https://github.com/
